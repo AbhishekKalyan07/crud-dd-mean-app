@@ -14,22 +14,22 @@ jobs:
     - name: Login to Docker Hub
       uses: docker/login-action@v2
       with:
-        username: ${{abhishekk16 }}
-        password: ${{#K@lyan19685785 }}
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build and Push Backend
       uses: docker/build-push-action@v4
       with:
         context: ./backend
         push: true
-        tags: ${{ abhishekk16 }}/mean-backend:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/mean-backend:latest
 
     - name: Build and Push Frontend
       uses: docker/build-push-action@v4
       with:
         context: ./frontend
         push: true
-        tags: ${{abhishekk16 }}/mean-frontend:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/mean-frontend:latest
 
   deploy:
     needs: build-and-push
@@ -38,35 +38,9 @@ jobs:
     - name: Deploy to AWS EC2
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ 3.26.145.46 }}
+        host: ${{ secrets.HOST_DNS }}
         username: ubuntu
-        key: ${{ -----BEGIN RSA PRIVATE KEY-----
-MIIEowIBAAKCAQEA4f5x2L2oq/ykNbqvQMlYUNvw8xRto/wH8mZUgKcMQ3rIAg0k
-4Cs2TDMShGStz7Nn9H4J0T0BIn5HAo5dWq9NluzavRpelvWgYINaf61RcTeXvC/f
-5uAJCi9ILeynax+maZ3qGcKHFhJsS+3qJB7CqjDEIghlECvbLwzllmwhcrg8VKmZ
-Akm/ffLNRDwusdZJwpG1F9Zebt45RbGS2ZksAlfyV5DsQggyksUyMTABp9/1LpsE
-9hEyzfqDZuxEN9UlIEz0EBJvYk66OHa2ts7Sb6ek4/Bw0efJs5XGbs34LneJ+R+V
-Cv0AKOzVed5ygtXCftw9uGviAbiPSdUG27i6UwIDAQABAoIBAEq6n5zDAk50yTv3
-ElKDAdAjGmbW33Z1NY+DJPgxxM1fgVmkTQhPYbIKxVnADPV8ZqijMM3etUxZo1OG
-DfqZszdv9NjJKnQSnsirRranciHU9zjEP+6RMIwMnHqLIcU7fwS3shx4hcDXsLXe
-4yi0fzxVydVTH1AcoGrLgfOep+TNxg5SLkgk0d7MbHIcTc5M+vH0fuGmbcUmqE9V
-9/lTtD9dEsoKQnTga53ZR/fPCUnfvlfUaLB0jNbYX3C+4N9yt7NH3zNl3ROrxYUf
-oyNRNkMxvav3f1YAAPVj/AKlBbnt+srUTSWajGaXf0GLPGHspD7SUJbgcy61XYo/
-oSAhRrkCgYEA9oGsaZqnafJXHH60dqoQ8gX6Cupo1cyHR/jCCcXbHcGLLdnnzWTG
-ZwlUL7JExT2hc1nhkhDDFedEBSCdVZCxfUPQlqEJK+Wqsk6bLYqrECitSNtKRLQn
-uBcc8TtDzRkuPqynzKDPELeJT0xutUIilFsn4QvMiCUWT8HQwx8lR+8CgYEA6rKJ
-LJbonBLXFWB1/Q76tgdsN+iK30+tyVZP2u0SBA7El1QN+WpXZS+Io1Ez02wEB7aF
-fS+8dHFfIfFSWcgFDugCMGMy4xkeKdqCteuyDTzmw2az0BM4idnvkpSMQTuuniJF
-S1bwiwHH0YhC0LHwc86k591o53NrqEIg+kY3b90CgYAmV9FLs+SqlCl8ozDK7HUq
-UEeufvvDlcbNKSJ1hrMok7xka2qlBjHeQRM5QA92ZrnASZDOuZC+zXRFH+eZMaKK
-C4xcgbv9egHtLlDw6orlPo6FsKaCvUsYVXAJDeDj/DC3Sv/m0nSi8wmGririQuFC
-FlPDq6Qq4SnxSgKA901DPQKBgQCYy/FomTsJWW60GR/Xx+fLmJuI7ply92HyQYIt
-ysg+4gp1ZyDN78DEPKUdhqFSFPGuv9K6hNiRirnf1EfD8efxI3VBYWPg3Bp6LyuI
-GtHJsoueTX/liI33mW5SpOmHEr8FbtRkT069gURBExBE5IPiMXfFCK3ieY9udNcZ
-eZtf9QKBgGuU22SdzTgIRqtpF9DBhi/CCLfdSHjfmELyINgNc4lTgPE/l/lAbe26
-4btR1/sFsErVz9H383KdK8cubGLO7cJl7r53vPdIbSXWP9LO9eg1eA1OJAVXujZ/
-GR3Nz3WRF246G8Mc70fmbPFmEjI+TeO7OKplcIQyDmRNYrMGXvXD
------END RSA PRIVATE KEY----- }}
+        key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           cd crud-dd-mean-app
           # Stop current containers
