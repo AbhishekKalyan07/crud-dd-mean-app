@@ -14,22 +14,22 @@ jobs:
     - name: Login to Docker Hub
       uses: docker/login-action@v2
       with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        username: ${{ secrets.abhishekk16 }}
+        password: ${{ secrets.#K@lyan19685785 }}
 
     - name: Build and Push Backend
       uses: docker/build-push-action@v4
       with:
         context: ./backend
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/mean-backend:latest
+        tags: ${{ secrets.abhishekk16 }}/mean-backend:latest
 
     - name: Build and Push Frontend
       uses: docker/build-push-action@v4
       with:
         context: ./frontend
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/mean-frontend:latest
+        tags: ${{ secrets.abhishekk16 }}/mean-frontend:latest
 
   deploy:
     needs: build-and-push
@@ -38,7 +38,7 @@ jobs:
     - name: Deploy to AWS EC2
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.HOST_DNS }}
+        host: ${{ secrets.3.26.145.46 }}
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
